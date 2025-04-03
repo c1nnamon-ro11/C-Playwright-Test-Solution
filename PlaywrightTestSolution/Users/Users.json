@@ -1,0 +1,8 @@
+[
+    {
+        "UserName":  "TestUser1",
+        "UserEmail": "vladyslav.shevchuk.mkisk.2021@lpnu.ua",
+        "Password": "Password123456",
+        "Role":  "Viewer"
+    }
+]
