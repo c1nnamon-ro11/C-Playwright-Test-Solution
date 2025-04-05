@@ -24,7 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Users\Users.json">
+    <None Update="Tests\TestData\TestDocument.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="BusinessLogic\Helpers\Users\Users.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

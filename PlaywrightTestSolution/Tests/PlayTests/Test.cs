@@ -1,9 +1,8 @@
-﻿using PlaywrightTestSolution.Actions;
-using PlaywrightTestSolution.PlayTests;
-using PlaywrightTestSolution.PageObjects;
-using FluentAssertions;
+﻿using PlaywrightTestSolution.BusinessLogic.Actions;
+using PlaywrightTestSolution.BusinessLogic.Helpers;
+using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages;
 
-namespace PlaywrightTestSolution.Tests
+namespace PlaywrightTestSolution.Tests.PlayTests
 {
     public class Test : BaseTest
     {
@@ -25,8 +24,7 @@ namespace PlaywrightTestSolution.Tests
             await _loginPage.NavigateTo();
             await _loginPage.LoginByEmail("TestUser1");
 
-            await Task.Delay(5000);
-            _baseActions.GetCurrentURL().Should().BeEquivalentTo(EXPECTED_PAGE_URL);
+            await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
         }
     }
 }
