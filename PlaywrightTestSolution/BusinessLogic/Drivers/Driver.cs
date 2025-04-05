@@ -1,6 +1,6 @@
 ﻿using Microsoft.Playwright;
 
-namespace PlaywrightTestSolution.Drivers
+namespace PlaywrightTestSolution.BusinessLogic.Drivers
 {
     public class Driver
     {
