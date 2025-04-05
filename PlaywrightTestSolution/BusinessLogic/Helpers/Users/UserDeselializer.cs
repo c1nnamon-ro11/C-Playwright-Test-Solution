@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
 
-namespace PlaywrightTestSolution.Users
+namespace PlaywrightTestSolution.BusinessLogic.Helpers.Users
 {
     public class UserDeselializer
     {
-        const string usersFileName = @"\Users\Users.json";
+        const string usersFileName = @"\BusinessLOgic\Helpers\Users\Users.json";
 
         public static List<UserModel> GetUsers()
         {

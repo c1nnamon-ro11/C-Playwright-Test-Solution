@@ -1,4 +1,4 @@
-﻿namespace PlaywrightTestSolution.Users
+﻿namespace PlaywrightTestSolution.BusinessLogic.Helpers.Users
 {
     public class UserModel
     {

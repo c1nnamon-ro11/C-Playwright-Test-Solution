@@ -1,9 +1,10 @@
-﻿using PlaywrightTestSolution.Actions;
-using PlaywrightTestSolution.Drivers;
-using PlaywrightTestSolution.PageObjects.Locators;
-using PlaywrightTestSolution.Users;
+﻿using PlaywrightTestSolution.BusinessLogic.Actions;
+using PlaywrightTestSolution.BusinessLogic.Drivers;
+using PlaywrightTestSolution.BusinessLogic.Helpers;
+using PlaywrightTestSolution.BusinessLogic.Helpers.Users;
+using PlaywrightTestSolution.Connectors.Locators;
 
-namespace PlaywrightTestSolution.PageObjects
+namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages
 {
     public class LoginPage
     {
@@ -22,7 +23,12 @@ namespace PlaywrightTestSolution.PageObjects
 
         public async Task NavigateTo()
         {
-            await _driver.Page.GotoAsync(_loginPageURL);
+            await _baseActions.NavigateTo(_loginPageURL);
+        }
+
+        public async Task WaitForPageToLoad()
+        {
+            await Waiters.WaitForElementToBeVisible(_loginPageLocators.AuthorizationBox);
         }
 
         public async Task LoginByEmail(string userName)
@@ -30,7 +36,7 @@ namespace PlaywrightTestSolution.PageObjects
             List<UserModel> users = UserDeselializer.GetUsers();
             var targetUser = users.Select(user => user).Where(user => user.UserName == userName).First();
 
-            await _baseActions.SetInput(_loginPageLocators.PasswordField, targetUser.Password!);
+            await _baseActions.SetInput(_loginPageLocators.UserNameField, targetUser.UserEmail!);
             await _baseActions.SetInput(_loginPageLocators.PasswordField, targetUser.Password!);
 
             await _loginPageLocators.LoginButton.ClickAsync();
