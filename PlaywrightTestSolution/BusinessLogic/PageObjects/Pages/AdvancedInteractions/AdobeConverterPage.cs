@@ -40,7 +40,7 @@ namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages.AdvancedInterac
 
         public async Task UploadDocumentFromSystem(string name)
         {
-            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "TestData", name);
+            string fullPath = Path.Combine(Directory.GetCurrentDirectory(), "Tests", "TestData", name);
             await _baseActions.UploadFile(_adobeConverterPageLocators.FileInput, fullPath);
         }
         

@@ -22,7 +22,7 @@
   <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
-
+	
   <ItemGroup>
     <None Update="Tests\TestData\TestDocument.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

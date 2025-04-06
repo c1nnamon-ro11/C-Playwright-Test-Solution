@@ -5,23 +5,26 @@ using PlaywrightTestSolution.BusinessLogic.Actions;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]   
     public class AdvancedInteractionsTests : BaseTest
     {
         private BaseActions _baseActions;
         private AdobeConverterPage _adobeConverterPage;
 
-        [OneTimeSetUp]
-        public new void OneTimeSetUp()
-        {
-            _baseActions = new BaseActions(driver);
-            _adobeConverterPage = new AdobeConverterPage(driver);
-        }
-
         [SetUp]
         public async Task Setup()
         {
+            _baseActions = new BaseActions(driver);
+            _adobeConverterPage = new AdobeConverterPage(driver);
             await _adobeConverterPage.NavigateTo();
             await _adobeConverterPage.WaitForPageToLoad();
+        }
+
+        [TearDown]
+        public new async Task TearDown()
+        {
+            await driver.DisposeAsync();
         }
 
         // Click tabs till openening expecting element
@@ -31,7 +34,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
             const int XPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED = 1;
             const int EXPECTED_LIST_ITEM_TO_NOT_BE_HIGHLIGHTED = 2;
             const int EXPECTED_NUMBER_OF_TABS = 19;
-           
+
             // Pressing Tab till expected item will be selected
             for (int i = 0; i <= EXPECTED_NUMBER_OF_TABS; i++)
             {
@@ -92,4 +95,3 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         }
     }
 }
-

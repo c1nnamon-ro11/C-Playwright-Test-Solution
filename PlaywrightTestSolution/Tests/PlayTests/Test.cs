@@ -4,6 +4,8 @@ using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Fixtures)]
     public class Test : BaseTest
     {
         private BaseActions _baseActions;
@@ -17,7 +19,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         }
 
         [Test]
-        public async Task Test1()
+        public async Task LoginAsViewer()
         {
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
 

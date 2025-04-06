@@ -3,21 +3,22 @@ using PlaywrightTestSolution.BusinessLogic.Drivers;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
 {
+    [FixtureLifeCycle(LifeCycle.InstancePerTestCase)] // Has to be for Parallel test execution
     public class BaseTest : PageTest
     {
         public Driver driver { get; set; }
 
-        [OneTimeSetUp]
-        public async Task OneTimeSetUp()
+        [SetUp]
+        public async Task SetUp()
         {
             driver = new Driver();
             await Task.CompletedTask;
         }
 
-        [OneTimeTearDown]
-        public async Task OneTimeTearDown()
+        [TearDown]
+        public async Task TearDown()
         {
-           await driver.Dispose();
+           await driver.DisposeAsync();
         }
     }
 }

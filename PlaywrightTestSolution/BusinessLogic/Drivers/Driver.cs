@@ -2,50 +2,74 @@
 
 namespace PlaywrightTestSolution.BusinessLogic.Drivers
 {
-    public class Driver
+    public class Driver : IAsyncDisposable
     {
-        private readonly Task<IPage> _page;
+        private Task<IPage>? _page;
         private IBrowser? _browser;
-        private const bool IS_CHROME_TARGET_BROWSER = false;
+        private IBrowserContext? _context;
+        private const bool IS_CHROME_TARGET_BROWSER = true;
+        private const bool IS_HEADLESS = false;
 
         public Driver()
         {
             _page = InitializePlaywright();
         }
 
-        public IPage Page => GetInstanse().Result;
+        public IPage Page => GetInstance().Result;
+        public IPlaywright Playwright { get; private set; }
 
-        public async Task<IPage> GetInstanse()
+        public async Task<IPage> GetInstance()
         {
             if (_page == null)
             {
-                await InitializePlaywright();
+                _page = InitializePlaywright();
             }
-            return await _page!;           
+            return await _page!;
         }
-
 
         private async Task<IPage> InitializePlaywright()
         {
             // Playwright
-            var playwright = await Playwright.CreateAsync();
+            Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
             // Browser
             var browserTypeLaunchOptions = new BrowserTypeLaunchOptions()
             {
-                Headless = false
+                Headless = IS_HEADLESS
             };
-            _browser = IS_CHROME_TARGET_BROWSER ? 
-                await playwright.Chromium.LaunchAsync(browserTypeLaunchOptions) :
-                await playwright.Firefox.LaunchAsync(browserTypeLaunchOptions);
-            var context = await _browser.NewContextAsync();
-            return await context.NewPageAsync();
+            _browser = IS_CHROME_TARGET_BROWSER ?
+                await Playwright.Chromium.LaunchAsync(browserTypeLaunchOptions) :
+                await Playwright.Firefox.LaunchAsync(browserTypeLaunchOptions);
+            // Context
+            var browserNewContextOptions = new BrowserNewContextOptions()
+            {
+                ColorScheme = ColorScheme.Light,
+                ViewportSize = new()
+                {
+                    Width = 1920,
+                    Height = 1080
+                },
+                BaseURL = "https://playwright.dev/dotnet/",           
+            };
+            _context = await _browser.NewContextAsync();
+            return await _context.NewPageAsync();
         }
 
-        public async Task Dispose()
+        public async ValueTask DisposeAsync()
         {
-            await _page.Result.CloseAsync();
-            await _browser!.CloseAsync();
+            if (_page != null)
+            {
+                await (await _page).CloseAsync();
+            }
+            if (_context != null)
+            {
+                await _context.CloseAsync();
+            }
+            if (_browser != null)
+            {
+                await _browser.CloseAsync();
+            }
+            Playwright?.Dispose();
         }
     }
 }
