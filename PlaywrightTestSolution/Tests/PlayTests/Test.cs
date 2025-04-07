@@ -28,5 +28,29 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
         }
+
+        [Test]
+        public async Task FailingTest()
+        {
+            const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
+
+            await _loginPage.NavigateTo();
+            await _loginPage.LoginByEmail("TestUser1");
+
+            await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
+            Assert.Fail("This test is expected to fail.");
+        }
+
+        [Test]
+        public async Task AnotherFailingTest()
+        {
+            const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
+
+            await _loginPage.NavigateTo();
+            await _loginPage.LoginByEmail("TestUser1");
+
+            await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
+            Assert.Fail("This test is expected to fail.");
+        }
     }
 }
