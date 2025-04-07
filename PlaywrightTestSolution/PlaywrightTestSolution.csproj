@@ -31,5 +31,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+	
+  <ItemGroup>
+    <Compile Update="BusinessLogic\Helpers\ScreenshotTaker.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
 
 </Project>
