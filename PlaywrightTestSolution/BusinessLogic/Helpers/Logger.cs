@@ -6,6 +6,7 @@ namespace PlaywrightTestSolution.BusinessLogic.Helpers
     public class Logger
     {
         private ILogger? _logger;
+        private const bool IS_FILE_REQUIRED = true; 
         private const string RELATIVE_PATH = @"\Tests\TestsOutput";
         private const string OUTPUT_TEMPLATE = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
@@ -24,11 +25,20 @@ namespace PlaywrightTestSolution.BusinessLogic.Helpers
             string logPath = Path.Combine(workDirectory, testName);
             string logName = $"{testName}_{currentDate}.txt";
 
-            return new LoggerConfiguration().MinimumLevel.Is(minimumLogLevel).
+            var logger = new LoggerConfiguration().MinimumLevel.Is(minimumLogLevel).
+                WriteTo.Console(outputTemplate: OUTPUT_TEMPLATE);
+
+            var actualLogger = IS_FILE_REQUIRED ? 
+                logger.WriteTo.File(Path.Combine(logPath, logName), outputTemplate: OUTPUT_TEMPLATE, rollOnFileSizeLimit: true, retainedFileCountLimit: 3).CreateLogger() :
+                    logger.CreateLogger();
+
+            var s = new LoggerConfiguration().MinimumLevel.Is(minimumLogLevel).
                 WriteTo.Console(outputTemplate: OUTPUT_TEMPLATE).
-                WriteTo.File(Path.Combine(logPath, logName), outputTemplate: OUTPUT_TEMPLATE, 
+                WriteTo.File(Path.Combine(logPath, logName), outputTemplate: OUTPUT_TEMPLATE,
                     rollOnFileSizeLimit: true, retainedFileCountLimit: 3)
                 .CreateLogger();
+
+            return actualLogger;
         }
     }
 }

@@ -36,14 +36,46 @@ namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages
             await Waiters.WaitForElementToBeVisible(_loginPageLocators.AuthorizationBox);
         }
 
-        public async Task LoginByEmail(string userName)
+        public async Task LoginByUserName(string userName)
         {
-            List<UserModel> users = UserDeselializer.GetUsers();
-            var targetUser = users.Select(user => user).Where(user => user.UserName == userName).First();
+            UserModel targetUser;
+
+            try
+            {
+                targetUser = UserDeselializer.GetUserByParameter("UserName", userName);
+            }
+            catch
+            {
+                _logger.Information($"User with email {userName} not found in the Users.json file.");
+                throw new Exception($"User with email {userName} not found in the Users.json file.");
+            }
 
             _logger.Debug($"Enter user email and password");
             await _baseActions.SetInput(_loginPageLocators.UserNameField, targetUser.UserEmail!);
             await _baseActions.SetInput(_loginPageLocators.PasswordField, targetUser.Password!);
+
+            _logger.Debug($"Click login");
+            await _loginPageLocators.LoginButton.ClickAsync();
+        }
+
+        public async Task LoginByRole(string userRole)
+        {
+            UserModel targetUser;
+
+            try
+            {
+                targetUser = UserDeselializer.GetUserByParameter("Role", userRole);
+            }
+            catch
+            {
+                _logger.Information($"User with Role {userRole} not found in the Users.json file.");
+                throw new Exception($"User with Role {userRole} not found in the Users.json file.");
+            }
+
+            _logger.Debug($"Enter user email and password");
+            await _baseActions.SetInput(_loginPageLocators.UserNameField, targetUser.UserEmail!);
+            await _baseActions.SetInput(_loginPageLocators.PasswordField, targetUser.Password!);
+            await Task.Delay(500);
 
             _logger.Debug($"Click login");
             await _loginPageLocators.LoginButton.ClickAsync();

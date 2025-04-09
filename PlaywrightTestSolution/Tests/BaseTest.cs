@@ -53,7 +53,7 @@ namespace PlaywrightTestSolution.Tests
             }
             if (isTestPassed)
             {
-                logger!.Information($"{TestContext.CurrentContext.Test.Name} successfully passes.");
+                logger!.Information($"{TestContext.CurrentContext.Test.Name} successfully passed.");
             }
             else
             {

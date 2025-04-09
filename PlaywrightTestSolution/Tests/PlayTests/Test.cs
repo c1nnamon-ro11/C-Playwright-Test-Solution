@@ -21,28 +21,29 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
         // Login in application
         // Verify that user is logged in
-        [Test, Retry(2), Timeout(TwoMin)]
+        [Test, Attributes.CustomRetry(2), Timeout(TwoMin)]
         public async Task LoginAsViewer()
         {
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
 
             await _loginPage.NavigateTo();
-            await _loginPage.LoginByEmail("TestUser1");
+            await _loginPage.LoginByRole("Viewer");
             logger!.Information("User logged in.");
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
+            await Task.Delay(5000);
         }
 
         // Login in application
         // Verify that user is logged in
         // Fail test
-        [Test, Retry(2), Timeout(TwoMin)]
+        [Test, Attributes.CustomRetry(2), Timeout(TwoMin)]
         public async Task FailingTest()
         {
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
 
             await _loginPage.NavigateTo();
-            await _loginPage.LoginByEmail("TestUser1");
+            await _loginPage.LoginByUserName("TestUser1");
             logger!.Information("User logged in.");
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
@@ -58,7 +59,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
 
             await _loginPage.NavigateTo();
-            await _loginPage.LoginByEmail("TestUser1");
+            await _loginPage.LoginByUserName("TestUser1");
             logger!.Information("User logged in.");
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
