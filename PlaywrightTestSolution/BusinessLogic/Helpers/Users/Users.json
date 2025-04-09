@@ -1,8 +1,14 @@
 [
     {
-        "UserName":  "TestUser1",
+        "UserName": "TestUser1",
         "UserEmail": "vladyslav.shevchuk.mkisk.2021@lpnu.ua",
         "Password": "Password123456",
-        "Role":  "Viewer"
-    }
+        "Role": "Viewer"
+    },
+    {
+        "UserName": "TestUser2",
+        "UserEmail": "berckgangster@gmail.com",
+        "Password": "123456",
+        "Role": "Viewer"
+    } 
 ]

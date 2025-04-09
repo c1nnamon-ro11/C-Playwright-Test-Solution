@@ -39,6 +39,8 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
             logger.Information($"Press Enter till and Verify that expected item selected.");
             await _baseActions.PressKey("Enter");
+            await Task.Delay(1000);
+
             CustomAssertions.BeTrue(await _adobeConverterPage.IsQuestionListOpened(EXPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED), 
                 $"Verify that {EXPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED} list is opened");
             CustomAssertions.BeFalse(await _adobeConverterPage.IsQuestionListOpened(EXPECTED_LIST_ITEM_TO_NOT_BE_HIGHLIGHTED),
