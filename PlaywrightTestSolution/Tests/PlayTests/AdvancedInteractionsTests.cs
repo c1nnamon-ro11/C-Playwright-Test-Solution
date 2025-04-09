@@ -1,6 +1,5 @@
-﻿using FluentAssertions;
+﻿using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages.AdvancedInteractions;
 using PlaywrightTestSolution.BusinessLogic.Helpers;
-using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages.AdvancedInteractions;
 using PlaywrightTestSolution.BusinessLogic.Actions;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
@@ -15,37 +14,35 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         [SetUp]
         public async Task Setup()
         {
-            _baseActions = new BaseActions(driver);
-            _adobeConverterPage = new AdobeConverterPage(driver);
+            _baseActions = new BaseActions(driver, logger!);
+            _adobeConverterPage = new AdobeConverterPage(driver, logger!);
+
             await _adobeConverterPage.NavigateTo();
             await _adobeConverterPage.WaitForPageToLoad();
-        }
-
-        [TearDown]
-        public new async Task TearDown()
-        {
-            await driver.DisposeAsync();
         }
 
         // Click tabs till openening expecting element
         [Test]
         public async Task PressingTab()
         {
-            const int XPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED = 1;
+            const int EXPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED = 1;
             const int EXPECTED_LIST_ITEM_TO_NOT_BE_HIGHLIGHTED = 2;
             const int EXPECTED_NUMBER_OF_TABS = 19;
 
             // Pressing Tab till expected item will be selected
+            logger!.Information($"Pressing Tab till expected item will be selected.");
             for (int i = 0; i <= EXPECTED_NUMBER_OF_TABS; i++)
             {
                 await Task.Delay(200);
                 await _baseActions.PressKey("Tab");
             }
-            await _baseActions.PressKey("Enter");
 
-            // Verify that expected item selected
-            (await _adobeConverterPage.IsQuestionListOpened(XPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED)).Should().BeTrue();
-            (await _adobeConverterPage.IsQuestionListOpened(EXPECTED_LIST_ITEM_TO_NOT_BE_HIGHLIGHTED)).Should().BeFalse();
+            logger.Information($"Press Enter till and Verify that expected item selected.");
+            await _baseActions.PressKey("Enter");
+            CustomAssertions.BeTrue(await _adobeConverterPage.IsQuestionListOpened(EXPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED), 
+                $"Verify that {EXPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED} list is opened");
+            CustomAssertions.BeFalse(await _adobeConverterPage.IsQuestionListOpened(EXPECTED_LIST_ITEM_TO_NOT_BE_HIGHLIGHTED),
+                $"Verify that {EXPECTED_LIST_ITEM_TO_NOT_BE_HIGHLIGHTED} list is not opened");
         }
 
         // Open dropdown with text
@@ -56,18 +53,21 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         {
             const int EXPECTED_LIST_ITEM = 1;
 
-            (await _adobeConverterPage.IsQuestionListAnswerOpened(EXPECTED_LIST_ITEM)).Should().BeFalse();
+            CustomAssertions.BeFalse(await _adobeConverterPage.IsQuestionListAnswerOpened(EXPECTED_LIST_ITEM), 
+                $"{EXPECTED_LIST_ITEM} list item is not opened.");
 
             // Open list item
             await _adobeConverterPage.OpenListAnswer(EXPECTED_LIST_ITEM);
-            (await _adobeConverterPage.IsQuestionListAnswerOpened(EXPECTED_LIST_ITEM)).Should().BeTrue();
+            CustomAssertions.BeTrue(await _adobeConverterPage.IsQuestionListAnswerOpened(EXPECTED_LIST_ITEM),
+                $"{EXPECTED_LIST_ITEM} list item is opened.");
 
             // Refresh page
             await _baseActions.Refresh();
             await _adobeConverterPage.WaitForPageToLoad();
 
             // Verify that item again hidden
-            (await _adobeConverterPage.IsQuestionListAnswerOpened(EXPECTED_LIST_ITEM)).Should().BeFalse();
+                        CustomAssertions.BeFalse(await _adobeConverterPage.IsQuestionListAnswerOpened(EXPECTED_LIST_ITEM), 
+                $"{EXPECTED_LIST_ITEM} list item is not opened again.");
         }
 
         // Upload test document to input by selecting file
@@ -89,9 +89,11 @@ namespace PlaywrightTestSolution.Tests.PlayTests
             string DEFAULT_DROPZONE_BACKGROUND_COLOR = "rgb(213, 213, 213)";
             string HOVERED_DROPZONE_BACKGROUND_COLOR = "rgb(177, 177, 177)";
 
-            (await _adobeConverterPage.GetFileDropzoneBorderColor()).Should().Be(DEFAULT_DROPZONE_BACKGROUND_COLOR);
+            CustomAssertions.Be(await _adobeConverterPage.GetFileDropzoneBorderColor(), DEFAULT_DROPZONE_BACKGROUND_COLOR, 
+                $"Dropzone border has expected {DEFAULT_DROPZONE_BACKGROUND_COLOR} border color");
             await _adobeConverterPage.HoverOnFileDropzone();
-            (await _adobeConverterPage.GetFileDropzoneBorderColor()).Should().Be(HOVERED_DROPZONE_BACKGROUND_COLOR);
+            CustomAssertions.Be(await _adobeConverterPage.GetFileDropzoneBorderColor(), HOVERED_DROPZONE_BACKGROUND_COLOR,
+                $"Dropzone border has expected {HOVERED_DROPZONE_BACKGROUND_COLOR} border color after hovering");
         }
     }
 }

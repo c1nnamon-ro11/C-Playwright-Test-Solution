@@ -16,7 +16,7 @@ namespace PlaywrightTestSolution.BusinessLogic.Drivers
         }
 
         public IPage Page => GetInstance().Result;
-        public IPlaywright Playwright { get; private set; }
+        public IPlaywright Playwright { get; private set; } = null!;
 
         public async Task<IPage> GetInstance()
         {
@@ -70,6 +70,6 @@ namespace PlaywrightTestSolution.BusinessLogic.Drivers
                 await _browser.CloseAsync();
             }
             Playwright?.Dispose();
-        }
+        }       
     }
 }
