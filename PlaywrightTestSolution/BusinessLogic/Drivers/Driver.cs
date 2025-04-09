@@ -46,8 +46,8 @@ namespace PlaywrightTestSolution.BusinessLogic.Drivers
                 ColorScheme = ColorScheme.Light,
                 ViewportSize = new()
                 {
-                    Width = 1920,
-                    Height = 1080
+                    Width = 2560,
+                    Height = 1449
                 },
                 BaseURL = "https://playwright.dev/dotnet/",           
             };

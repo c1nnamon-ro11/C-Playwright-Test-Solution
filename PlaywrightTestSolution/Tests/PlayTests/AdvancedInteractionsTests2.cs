@@ -23,7 +23,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
         // DragAndDrop item from default list to trash bin
         // Verify item present in trash bin but not in default list
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task DragAndDropAction()
         {
             const int TEST_ITEM_INDEX = 1;

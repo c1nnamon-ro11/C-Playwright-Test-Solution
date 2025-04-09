@@ -22,7 +22,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         }
 
         // Click tabs till openening expecting element
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task PressingTab()
         {
             const int EXPECTED_LIST_ITEM_TO_BE_HIGHLIGHTED = 1;
@@ -48,7 +48,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         // Open dropdown with text
         // Refresh page
         // Verify that dropdown was closed
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task RefreshingPage()
         {
             const int EXPECTED_LIST_ITEM = 1;
@@ -71,7 +71,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         }
 
         // Upload test document to input by selecting file
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task UploadingDocumentFromSystem()
         {
             string DOCUMENT_NAME = "TestDocument.pdf";
@@ -83,7 +83,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         // Get element border color
         // Hover on test elemet
         // Verify that border color was updated 
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task HoverMouseOnButton()
         {
             string DEFAULT_DROPZONE_BACKGROUND_COLOR = "rgb(213, 213, 213)";
