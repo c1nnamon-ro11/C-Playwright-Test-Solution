@@ -1,6 +1,7 @@
-﻿using PlaywrightTestSolution.BusinessLogic.Actions;
+﻿using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages;
+using PlaywrightTestSolution.BusinessLogic.Actions;
 using PlaywrightTestSolution.BusinessLogic.Helpers;
-using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages;
+using NUnit.Framework.Internal;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
 {
@@ -14,10 +15,12 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         [SetUp]
         public void Setup()
         {
-            _baseActions = new BaseActions(driver);
-            _loginPage = new LoginPage(driver);
+            _baseActions = new BaseActions(driver, logger!);
+            _loginPage = new LoginPage(driver, logger!);
         }
 
+        // Login in application
+        // Verify that user is logged in
         [Test]
         public async Task LoginAsViewer()
         {
@@ -25,10 +28,14 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
             await _loginPage.NavigateTo();
             await _loginPage.LoginByEmail("TestUser1");
+            logger!.Information("User logged in.");
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
         }
 
+        // Login in application
+        // Verify that user is logged in
+        // Fail test
         [Test]
         public async Task FailingTest()
         {
@@ -36,11 +43,15 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
             await _loginPage.NavigateTo();
             await _loginPage.LoginByEmail("TestUser1");
+            logger!.Information("User logged in.");
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
             Assert.Fail("This test is expected to fail.");
         }
 
+        // Login in application
+        // Verify that user is logged in
+        // Fail test
         [Test]
         public async Task AnotherFailingTest()
         {
@@ -48,9 +59,10 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
             await _loginPage.NavigateTo();
             await _loginPage.LoginByEmail("TestUser1");
+            logger!.Information("User logged in.");
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
-            Assert.Fail("This test is expected to fail.");
+            CustomAssertions.BeTrue(false, "This test is expected to fail.");
         }
     }
 }
