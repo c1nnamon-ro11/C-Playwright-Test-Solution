@@ -21,7 +21,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
 
         // Login in application
         // Verify that user is logged in
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task LoginAsViewer()
         {
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
@@ -36,7 +36,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         // Login in application
         // Verify that user is logged in
         // Fail test
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task FailingTest()
         {
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
@@ -52,7 +52,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
         // Login in application
         // Verify that user is logged in
         // Fail test
-        [Test]
+        [Test, Retry(2), Timeout(TwoMin)]
         public async Task AnotherFailingTest()
         {
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";

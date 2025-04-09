@@ -22,6 +22,11 @@ namespace PlaywrightTestSolution.Tests
                                                                             // 4) All higher levels - no logs
         private readonly string CURRENT_DATE = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
+        public const int Sec = 1000; // 1 sec
+        public const int Min = 60*Sec; // 1 Min
+        public const int TwoMin = 2 * Min; // 2 Min
+        public const int FiveMin = 5 * Min; // 5 Min
+
         [SetUp]
         public async Task SetUp()
         {
