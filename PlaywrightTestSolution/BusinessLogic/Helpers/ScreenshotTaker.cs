@@ -1,4 +1,5 @@
-﻿using Microsoft.Playwright;
+﻿using Allure.Net.Commons;
+using Microsoft.Playwright;
 
 namespace PlaywrightTestSolution.BusinessLogic.Helpers
 {
@@ -21,21 +22,45 @@ namespace PlaywrightTestSolution.BusinessLogic.Helpers
 
             try
             {
-                // Create new folder if it not exists
+                // Ensure screenshot folder exists
                 if (!Directory.Exists(screenshotPath))
                 {
                     Directory.CreateDirectory(screenshotPath);
                 }
-                await _page.ScreenshotAsync(new PageScreenshotOptions
+
+                string fullScreenshotFilePath = Path.Combine(screenshotPath, screenshotName);
+
+                // Take screenshot and save to file
+                var screenshotBytes = await TakeScreenshotHelper(fullScreenshotFilePath, FULL_PAGE_SCREENSHOT);
+
+                // Save a copy to Allure results directory and get relative path
+                string allureFileName = Guid.NewGuid().ToString() + ".png";
+                string allureFilePath = Path.Combine(AllureLifecycle.Instance.ResultsDirectory, allureFileName);
+                File.WriteAllBytes(allureFilePath, screenshotBytes);
+
+                AllureLifecycle.Instance.UpdateTestCase(test =>
                 {
-                    Path = Path.Combine(screenshotPath, screenshotName),
-                    FullPage = FULL_PAGE_SCREENSHOT
+                    test.attachments.Add(new Attachment
+                    {
+                        name = screenshotName,
+                        type = "image/png",
+                        source = allureFileName
+                    });
                 });
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error taking screenshot: {ex.Message}");
+                throw new Exception($"Error taking screenshot: {ex.Message}", ex);
             }
+        }
+
+        private async Task<byte[]> TakeScreenshotHelper(string path, bool fullPage)
+        {
+            return await _page.ScreenshotAsync(new PageScreenshotOptions
+            {
+                Path = path,
+                FullPage = fullPage
+            });
         }
     }
 }
