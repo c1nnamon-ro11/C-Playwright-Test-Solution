@@ -1,12 +1,17 @@
 ﻿using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages.AdvancedInteractions;
 using PlaywrightTestSolution.BusinessLogic.Helpers;
 using PlaywrightTestSolution.BusinessLogic.Actions;
+using Allure.NUnit.Attributes;
+using Allure.NUnit;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
 {
+    [AllureNUnit]
+    [AllureSuite("Advanced Interactions Tests")]
+    [AllureSubSuite("Global SQA")]
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
-    public class AdvancedInteractionsTests2 : BaseTest
+    public class GlobalSQATests : BaseTest
     {
         private BaseActions _baseActions;
         private GlobalSQAPage _globalSQAPage;
