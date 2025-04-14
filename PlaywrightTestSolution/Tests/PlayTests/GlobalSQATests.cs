@@ -1,12 +1,17 @@
 ﻿using PlaywrightTestSolution.BusinessLogic.PageObjects.Pages.AdvancedInteractions;
 using PlaywrightTestSolution.BusinessLogic.Helpers;
 using PlaywrightTestSolution.BusinessLogic.Actions;
+using Allure.NUnit.Attributes;
+using Allure.NUnit;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
 {
+    [AllureNUnit]
+    [AllureSuite("Advanced Interactions Tests")]
+    [AllureSubSuite("Global SQA")]
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
-    public class AdvancedInteractionsTests2 : BaseTest
+    public class GlobalSQATests : BaseTest
     {
         private BaseActions _baseActions;
         private GlobalSQAPage _globalSQAPage;
@@ -30,7 +35,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
             const int TEST_ITEM_INDEX_2 = 3;
 
             logger!.Information("Verify that items presented in default container");
-            var isElementVisible = await _globalSQAPage.IsItemInDefaultList(TEST_ITEM_INDEX);
+            await Waiters.WaitForCondition(async () => await _globalSQAPage.IsItemInDefaultList(TEST_ITEM_INDEX));
             CustomAssertions.BeTrue(await _globalSQAPage.IsItemInDefaultList(TEST_ITEM_INDEX),
                 $"Item {TEST_ITEM_INDEX} is present in default list");
             CustomAssertions.BeTrue(await _globalSQAPage.IsItemInDefaultList(TEST_ITEM_INDEX_2),

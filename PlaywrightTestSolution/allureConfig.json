@@ -1,0 +1,9 @@
+{
+    "allure": {
+        "directory": "../../../allure-results",
+        "cleanResultsDirectory": true,
+        "cleanReportDirectory": true,
+        "reportName": "Report name",
+        "loggingLevel": "DEBUG"
+    }
+}
