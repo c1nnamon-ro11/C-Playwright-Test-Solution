@@ -32,12 +32,6 @@ namespace PlaywrightTestSolution.BusinessLogic.Helpers
                 logger.WriteTo.File(Path.Combine(logPath, logName), outputTemplate: OUTPUT_TEMPLATE, rollOnFileSizeLimit: true, retainedFileCountLimit: 3).CreateLogger() :
                     logger.CreateLogger();
 
-            var s = new LoggerConfiguration().MinimumLevel.Is(minimumLogLevel).
-                WriteTo.Console(outputTemplate: OUTPUT_TEMPLATE).
-                WriteTo.File(Path.Combine(logPath, logName), outputTemplate: OUTPUT_TEMPLATE,
-                    rollOnFileSizeLimit: true, retainedFileCountLimit: 3)
-                .CreateLogger();
-
             return actualLogger;
         }
     }
