@@ -402,3 +402,4 @@ FodyWeavers.xsd
 # Custom items
 # Ignore Allure test result files
 allure-results/
+.sonarqube
