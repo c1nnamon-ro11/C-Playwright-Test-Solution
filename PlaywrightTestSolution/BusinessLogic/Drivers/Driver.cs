@@ -20,10 +20,7 @@ namespace PlaywrightTestSolution.BusinessLogic.Drivers
 
         public async Task<IPage> GetInstance()
         {
-            if (_page == null)
-            {
-                _page = InitializePlaywright();
-            }
+            _page ??= InitializePlaywright();
             return await _page!;
         }
 

@@ -5,7 +5,7 @@ namespace PlaywrightTestSolution.BusinessLogic.Helpers
 {
     public class ScreenshotTaker
     {
-        private IPage _page;
+        private readonly IPage _page;
         private const string RELATIVE_PATH = @"\Tests\TestsOutput";
         private const bool FULL_PAGE_SCREENSHOT = false;
 

@@ -63,7 +63,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
             const string EXPECTED_PAGE_URL = "https://weather-drone-monitoring.web.app/dashboard";
 
             await _loginPage.NavigateTo();
-            await _loginPage.LoginByUserName("TestUser1");
+            await _loginPage.LoginByEmail("vladyslav.shevchuk.mkisk.2021@lpnu.ua");
             logger!.Information("User logged in.");
 
             await Waiters.WaitForCondition(() => _baseActions.GetCurrentURL().Equals(EXPECTED_PAGE_URL));
