@@ -7,7 +7,7 @@ namespace PlaywrightTestSolution.BusinessLogic.Actions
     public class BaseActions
     {
         private readonly Driver _driver;
-        private ILogger _logger;
+        private readonly ILogger _logger;
         public BaseActions(Driver driver, ILogger logger)
         {
             _driver = driver;
@@ -77,7 +77,7 @@ namespace PlaywrightTestSolution.BusinessLogic.Actions
         {
             _logger.Verbose($"Call GetElementsListTexts method");
             var elements = await locator.AllAsync();
-            List<string> elementsText = new List<string>();
+            List<string> elementsText = [];
             foreach (var element in elements)
             {
                 elementsText.Add(await element.InnerTextAsync());

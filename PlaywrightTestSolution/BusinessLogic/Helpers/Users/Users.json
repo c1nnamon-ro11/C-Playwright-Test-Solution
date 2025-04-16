@@ -10,5 +10,17 @@
         "UserEmail": "berckgangster@gmail.com",
         "Password": "123456",
         "Role": "Viewer"
+    },
+    {
+        "UserName": "TestUser3",
+        "UserEmail": "michalua1@o2.pl",
+        "Password": "Password123456",
+        "Role": "Viewer"
+    },
+    {
+        "UserName": "TestUser4",
+        "UserEmail": "wh1ske9@gmail.com",
+        "Password": "123456",
+        "Role": "Admin"
     }
 ]

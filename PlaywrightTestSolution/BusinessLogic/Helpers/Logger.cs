@@ -12,14 +12,11 @@ namespace PlaywrightTestSolution.BusinessLogic.Helpers
 
         public ILogger GetInstance(string currentDate, string testName, LogEventLevel minimumLogLevel = LogEventLevel.Information)
         {
-            if (_logger == null)
-            {
-                _logger = InitializeLogger(currentDate, testName, minimumLogLevel);
-            }
+            _logger ??= InitializeLogger(currentDate, testName, minimumLogLevel);
             return _logger!;
         }
 
-        private ILogger InitializeLogger(string currentDate, string testName, LogEventLevel minimumLogLevel)
+        private static ILogger InitializeLogger(string currentDate, string testName, LogEventLevel minimumLogLevel)
         {            
             string workDirectory = Directory.GetCurrentDirectory() + RELATIVE_PATH;
             string logPath = Path.Combine(workDirectory, testName);

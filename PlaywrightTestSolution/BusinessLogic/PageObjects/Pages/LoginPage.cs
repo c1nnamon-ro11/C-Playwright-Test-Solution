@@ -12,7 +12,7 @@ namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages
         private readonly Driver _driver;
         private readonly BaseActions _baseActions;
         private readonly LoginPageLocators _loginPageLocators;
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         private const string _loginPageURL = "https://weather-drone-monitoring.web.app/sign-in";
 
@@ -36,13 +36,23 @@ namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages
             await Waiters.WaitForElementToBeVisible(_loginPageLocators.AuthorizationBox);
         }
 
+        private async Task Login(string userName, string password)
+        {
+            _logger.Debug($"Enter user email and password");
+            await _baseActions.SetInput(_loginPageLocators.UserNameField, userName);
+            await _baseActions.SetInput(_loginPageLocators.PasswordField, password);
+
+            _logger.Debug($"Click login");
+            await _loginPageLocators.LoginButton.ClickAsync();
+        }
+
         public async Task LoginByUserName(string userName)
         {
             UserModel targetUser;
 
             try
             {
-                targetUser = UserDeselializer.GetUserByParameter("UserName", userName);
+                targetUser = UserDeselializer.GetUserByUsername(userName);
             }
             catch
             {
@@ -50,12 +60,24 @@ namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages
                 throw new Exception($"User with email {userName} not found in the Users.json file.");
             }
 
-            _logger.Debug($"Enter user email and password");
-            await _baseActions.SetInput(_loginPageLocators.UserNameField, targetUser.UserEmail!);
-            await _baseActions.SetInput(_loginPageLocators.PasswordField, targetUser.Password!);
+            await Login(targetUser.UserEmail!, targetUser.Password!);
+        }
 
-            _logger.Debug($"Click login");
-            await _loginPageLocators.LoginButton.ClickAsync();
+        public async Task LoginByEmail(string userEmail)
+        {
+            UserModel targetUser;
+
+            try
+            {
+                targetUser = UserDeselializer.GetUserByEmail(userEmail);
+            }
+            catch
+            {
+                _logger.Information($"User with email {userEmail} not found in the Users.json file.");
+                throw new Exception($"User with email {userEmail} not found in the Users.json file.");
+            }
+
+            await Login(targetUser.UserEmail!, targetUser.Password!);
         }
 
         public async Task LoginByRole(string userRole)
@@ -64,7 +86,7 @@ namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages
 
             try
             {
-                targetUser = UserDeselializer.GetUserByParameter("Role", userRole);
+                targetUser = UserDeselializer.GetUserByRole(userRole);
             }
             catch
             {
@@ -72,13 +94,41 @@ namespace PlaywrightTestSolution.BusinessLogic.PageObjects.Pages
                 throw new Exception($"User with Role {userRole} not found in the Users.json file.");
             }
 
-            _logger.Debug($"Enter user email and password");
-            await _baseActions.SetInput(_loginPageLocators.UserNameField, targetUser.UserEmail!);
-            await _baseActions.SetInput(_loginPageLocators.PasswordField, targetUser.Password!);
-            await Task.Delay(500);
+            await Login(targetUser.UserEmail!, targetUser.Password!);
+        }
 
-            _logger.Debug($"Click login");
-            await _loginPageLocators.LoginButton.ClickAsync();
+        public async Task LoginByFilter(string parameterName, string parameterValue)
+        {
+            UserModel targetUser;
+
+            try
+            {
+                targetUser = UserDeselializer.GetUserByFilter(parameterName, parameterValue);
+            }
+            catch
+            {
+                _logger.Information($"User with parameter {parameterName} and value {parameterValue} not found in the Users.json file.");
+                throw new Exception($"User with parameter {parameterName} and value {parameterValue} not found in the Users.json file.");
+            }
+
+            await Login(targetUser.UserEmail!, targetUser.Password!);
+        }
+
+        public async Task LoginByMultipleFilters(Dictionary<string, string> filters)
+        {
+            UserModel targetUser;
+
+            try
+            {
+                targetUser = UserDeselializer.GetUserByMultipleFilters(filters);
+            }
+            catch
+            {
+                _logger.Information($"User with provided filters was not found in the Users.json file.");
+                throw new Exception($"User with provided filters was not found in the Users.json file.");
+            }
+
+            await Login(targetUser.UserEmail!, targetUser.Password!);
         }
     }
 }
