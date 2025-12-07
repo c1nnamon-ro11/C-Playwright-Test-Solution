@@ -11,6 +11,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
     [AllureSubSuite("Global SQA")]
     [TestFixture]
     [Parallelizable(ParallelScope.Fixtures)]
+    [Category("Global SQA")]
     public class GlobalSQATests : BaseTest
     {
         private BaseActions _baseActions;
