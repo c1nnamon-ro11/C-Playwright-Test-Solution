@@ -4,12 +4,14 @@ using PlaywrightTestSolution.BusinessLogic.Helpers;
 using NUnit.Framework.Internal;
 using Allure.NUnit.Attributes;
 using Allure.NUnit;
+using System.Text;
 
 namespace PlaywrightTestSolution.Tests.PlayTests
 {
     [AllureNUnit]
     [AllureSuite("Weather Drone Monitoring")]
     [TestFixture]
+    [Category("Weather Drone Monitoring")]
     [Parallelizable(ParallelScope.Fixtures)]
     public class Test : BaseTest
     {

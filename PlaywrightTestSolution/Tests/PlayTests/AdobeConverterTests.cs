@@ -10,6 +10,7 @@ namespace PlaywrightTestSolution.Tests.PlayTests
     [AllureSuite("Advanced Interactions Tests")]
     [AllureSubSuite("Adobe Converter")]
     [TestFixture]
+    [Category("Adobe Converter")]
     [Parallelizable(ParallelScope.Fixtures)]   
     public class AdobeConverterTests : BaseTest
     {
